@@ -10,16 +10,16 @@ import java.util.Arrays;
 public class ArrayStorage {
     private Resume[] storage = new Resume[MAX_SIZE];
     private int recordCounter = 0;
-    private static final int MAX_SIZE=10_0000;
+    private static final int MAX_SIZE = 10_0000;
     private static final String ERROR_MSG = "ERROR: record doesn't exists!";
 
     public void clear() {
-        Arrays.fill(storage,null);
+        Arrays.fill(storage, null);
         recordCounter = 0;
     }
 
     public void save(Resume r) {
-        if (getIndex(r.getUuid()) != -1 || recordCounter>MAX_SIZE) {
+        if (getIndex(r.getUuid()) != -1 || recordCounter > MAX_SIZE) {
             System.out.println(ERROR_MSG);
             return;
         }
