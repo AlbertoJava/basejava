@@ -11,7 +11,6 @@ public class ArrayStorage {
     private Resume[] storage = new Resume[MAX_SIZE];
     private int resumeCounter = 0;
     private static final int MAX_SIZE = 10_0000;
-    private static final String ERROR_MSG = "ERROR: record doesn't exists!";
 
     public void clear() {
         Arrays.fill(storage, 0, resumeCounter, null);
@@ -20,11 +19,11 @@ public class ArrayStorage {
 
     public void save(Resume resume) {
         if (getIndex(resume.getUuid()) != -1) {
-            System.out.println("Resume with UUID " + resume.getUuid() + " already exist!");
+            System.out.println("ERROR: resume with UUID = " + resume.getUuid() + "  already exist!. Resume can't be saved.");
             return;
         }
         if (resumeCounter >= MAX_SIZE) {
-            System.out.println("Storage is full! Resume isn't saved!");
+            System.out.println("ERROR: storage is overfilled. Resume with UUID = " + resume.getUuid() + " can't be saved.");
             return;
         }
         storage[resumeCounter++] = resume;
@@ -35,7 +34,7 @@ public class ArrayStorage {
         if (index >= 0) {
             return storage[index];
         }
-        System.out.println(ERROR_MSG);
+        System.out.println("ERROR: resume with UUID = " + uuid + " not founded.");
         return null;
     }
 
@@ -46,7 +45,7 @@ public class ArrayStorage {
             storage[resumeCounter - 1] = null;
             resumeCounter--;
         } else {
-            System.out.println(ERROR_MSG);
+            System.out.println("ERROR: resume with UUID = " + uuid + " didn't found. Resume can't be deleted.");
         }
     }
 
@@ -64,12 +63,11 @@ public class ArrayStorage {
 
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
-        if (!(index >= 0)) {
-            System.out.println(ERROR_MSG);
+        if (index >= 0) {
+            storage[index] = resume;
             return;
         }
-        storage[index] = resume;
-        return;
+        System.out.println("ERROR: resume with UUID = " + resume.getUuid() + " didn't found. Resume can't be updated.");
     }
 
     private int getIndex(String uuid) {
