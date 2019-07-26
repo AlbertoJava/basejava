@@ -9,25 +9,25 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     private Resume[] storage = new Resume[MAX_SIZE];
-    private int recordCounter = 0;
+    private int resumeCounter = 0;
     private static final int MAX_SIZE = 10_0000;
     private static final String ERROR_MSG = "ERROR: record doesn't exists!";
 
     public void clear() {
-        Arrays.fill(storage,0,recordCounter, null);
-        recordCounter = 0;
+        Arrays.fill(storage, 0, resumeCounter, null);
+        resumeCounter = 0;
     }
 
     public void save(Resume resume) {
-        if (getIndex(resume.getUuid()) != -1){
-            System.out.println("Record already exists!");
+        if (getIndex(resume.getUuid()) != -1) {
+            System.out.println("Resume with UUID " + resume.getUuid() + " already exist!");
             return;
         }
-        if (recordCounter >= MAX_SIZE) {
+        if (resumeCounter >= MAX_SIZE) {
             System.out.println("Storage is full! Resume isn't saved!");
             return;
         }
-        storage[recordCounter++] = resume;
+        storage[resumeCounter++] = resume;
     }
 
     public Resume get(String uuid) {
@@ -39,46 +39,41 @@ public class ArrayStorage {
         return null;
     }
 
-
-
     public void delete(String uuid) {
-        int index =getIndex(uuid);
+        int index = getIndex(uuid);
         if (index >= 0) {
-            storage[index] = storage[recordCounter - 1];
-            storage[recordCounter - 1] = null;
-            recordCounter--;
+            storage[index] = storage[resumeCounter - 1];
+            storage[resumeCounter - 1] = null;
+            resumeCounter--;
         } else {
             System.out.println(ERROR_MSG);
         }
     }
 
-
     /**
      * @return array, contains only Resumes in storage (without null)
      */
 
-
     public Resume[] getAll() {
-        return Arrays.copyOf(storage, recordCounter);
+        return Arrays.copyOf(storage, resumeCounter);
     }
 
     public int size() {
-        return recordCounter;
+        return resumeCounter;
     }
-
 
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
-        if (index < 0) {
+        if (!(index >= 0)) {
             System.out.println(ERROR_MSG);
             return;
         }
-        storage[index].setUuid(resume.getUuid());
+        storage[index] = resume;
         return;
     }
 
     private int getIndex(String uuid) {
-        for (int i = 0; i < recordCounter; i++) {
+        for (int i = 0; i < resumeCounter; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
             }

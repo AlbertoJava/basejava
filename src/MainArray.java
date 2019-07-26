@@ -16,7 +16,7 @@ public class MainArray {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Resume r;
         while (true) {
-            System.out.print("Введите одну из команд - (list | save uuid | delete uuid | get uuid | clear | exit): ");
+            System.out.print("Введите одну из команд - (list | save uuid | delete uuid | get uuid | clear | exit | update uuid): ");
             String[] params = reader.readLine().trim().toLowerCase().split(" ");
             if (params.length < 1 || params.length > 2) {
                 System.out.println("Неверная команда.");
@@ -52,6 +52,19 @@ public class MainArray {
                     break;
                 case "exit":
                     return;
+                case "update":
+                    Resume r_upd = new Resume();
+                    Resume r_old = ARRAY_STORAGE.get(uuid);
+                    if (r_old != null) {
+                        r_upd.setUuid(uuid);
+                        ARRAY_STORAGE.update(r_upd);
+                    }
+                    if (r_old != r_upd & r_old != null) {
+                        System.out.println("Resume with UUID = " + uuid + " updated!");
+                    } else {
+                        System.out.println("Resume with UUID = " + uuid + " didn't updated!");
+                    }
+                    break;
                 default:
                     System.out.println("Неверная команда.");
                     break;
