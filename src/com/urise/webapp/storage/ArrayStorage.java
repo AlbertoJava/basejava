@@ -17,4 +17,19 @@ public class ArrayStorage extends AbstractArrayStorage{
         }
         return -1;
     }
+
+    @Override
+    public void save(Resume resume) {
+        super.saveResume(resume);
+    }
+
+    @Override
+    public void delete(String uuid) {
+         super.deleteResume(uuid);
+    }
+
+    @Override
+    public void update(Resume resume) {
+          super.updateResume(resume);
+    }
 }

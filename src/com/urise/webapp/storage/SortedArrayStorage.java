@@ -7,30 +7,30 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public boolean save(Resume r) {
-        if (super.save(r) & resumeCounter > 0) {
+    public void save(Resume r) {
+        if (super.saveResume(r) & resumeCounter > 0) {
             Arrays.sort(storage, 0, resumeCounter);
-            return true;
+            return;
         }
-        return false;
+        return;
     }
 
     @Override
-    public boolean delete(String uuid) {
-        if (super.delete(uuid) & resumeCounter > 0) {
+    public void delete(String uuid) {
+        if (super.deleteResume(uuid) & resumeCounter > 0) {
             Arrays.sort(storage, 0, resumeCounter);
-            return true;
+            return;
         }
-        return false;
+        return;
     }
 
     @Override
-    public boolean update(Resume resume) {
-        if (super.update(resume)) {
+    public void update(Resume resume) {
+        if (super.updateResume(resume)) {
             Arrays.sort(storage, 0, resumeCounter);
-            return true;
+            return;
         }
-        return false;
+        return;
     }
 
     @Override

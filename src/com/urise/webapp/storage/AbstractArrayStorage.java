@@ -14,7 +14,7 @@ public abstract class AbstractArrayStorage implements Storage {
         resumeCounter = 0;
     }
 
-    public boolean save(Resume resume) {
+    protected boolean saveResume(Resume resume) {
         if (getIndex(resume.getUuid()) != -1) {
             System.out.println("ERROR: resume with UUID = " + resume.getUuid() + "  already exist!. Resume can't be saved.");
             return false;
@@ -36,7 +36,7 @@ public abstract class AbstractArrayStorage implements Storage {
         return null;
     }
 
-    public boolean delete(String uuid) {
+    public boolean deleteResume(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
             storage[index] = storage[resumeCounter - 1];
@@ -61,7 +61,7 @@ public abstract class AbstractArrayStorage implements Storage {
         return resumeCounter;
     }
 
-    public boolean update(Resume resume) {
+    public boolean updateResume(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index >= 0) {
             storage[index] = resume;
@@ -72,5 +72,7 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     protected abstract int getIndex(String uuid);
-
+    public abstract void save(Resume resume);
+    public abstract void delete(String uuid);
+    public abstract void update(Resume resume);
 }
