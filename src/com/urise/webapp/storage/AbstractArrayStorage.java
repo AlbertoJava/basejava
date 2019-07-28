@@ -14,17 +14,21 @@ public abstract class AbstractArrayStorage implements Storage {
         resumeCounter = 0;
     }
 
-    protected boolean saveResume(Resume resume) {
-        if (getIndex(resume.getUuid()) != -1) {
+    public void save(Resume resume) {
+        if (getIndex(resume.getUuid()) >=0) {
             System.out.println("ERROR: resume with UUID = " + resume.getUuid() + "  already exist!. Resume can't be saved.");
-            return false;
+            return;
         }
         if (resumeCounter >= MAX_SIZE) {
             System.out.println("ERROR: storage is overfilled. Resume with UUID = " + resume.getUuid() + " can't be saved.");
-            return false;
+            return;
         }
-        storage[resumeCounter++] = resume;
-        return true;
+        if (resumeCounter == 0) {
+            storage[0] = resume;
+        } else {
+            insertResume(resume);
+        }
+        resumeCounter++;
     }
 
     public Resume get(String uuid) {
@@ -36,17 +40,15 @@ public abstract class AbstractArrayStorage implements Storage {
         return null;
     }
 
-    public boolean deleteResume(String uuid) {
+        public void delete(String uuid) {
         int index = getIndex(uuid);
-        if (index >= 0) {
-            storage[index] = storage[resumeCounter - 1];
-            storage[resumeCounter - 1] = null;
-            resumeCounter--;
-            return true;
-        } else {
+        if (index <0)
+        {
             System.out.println("ERROR: resume with UUID = " + uuid + " didn't found. Resume can't be deleted.");
-            return false;
+            return;
         }
+        deleteResume(index);
+
     }
 
     /**
@@ -61,18 +63,17 @@ public abstract class AbstractArrayStorage implements Storage {
         return resumeCounter;
     }
 
-    public boolean updateResume(Resume resume) {
+    public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
-        if (index >= 0) {
-            storage[index] = resume;
-            return true;
+        if (index < 0) {
+            System.out.println("ERROR: resume with UUID = " + resume.getUuid() + " didn't found. Resume can't be updated.");
         }
-        System.out.println("ERROR: resume with UUID = " + resume.getUuid() + " didn't found. Resume can't be updated.");
-        return false;
+        storage[index] = resume;
     }
 
     protected abstract int getIndex(String uuid);
-    public abstract void save(Resume resume);
-    public abstract void delete(String uuid);
-    public abstract void update(Resume resume);
+    protected abstract void insertResume(Resume resume);
+    protected abstract void deleteResume(int index);
+
+
 }

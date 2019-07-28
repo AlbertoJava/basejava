@@ -19,17 +19,15 @@ public class ArrayStorage extends AbstractArrayStorage{
     }
 
     @Override
-    public void save(Resume resume) {
-        super.saveResume(resume);
+    protected void insertResume(Resume resume) {
+        storage[resumeCounter] = resume;
     }
 
     @Override
-    public void delete(String uuid) {
-         super.deleteResume(uuid);
+    protected void deleteResume(int index) {
+        storage[index] = storage[resumeCounter - 1];
+        storage[resumeCounter - 1] = null;
+        resumeCounter--;
     }
 
-    @Override
-    public void update(Resume resume) {
-          super.updateResume(resume);
-    }
 }
