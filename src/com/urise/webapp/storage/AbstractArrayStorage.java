@@ -15,7 +15,8 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void save(Resume resume) {
-        if (getIndex(resume.getUuid()) >= 0) {
+        int index = getIndex(resume.getUuid());
+        if (index >= 0) {
             System.out.println("ERROR: resume with UUID = " + resume.getUuid() + "  already exist!. Resume can't be saved.");
             return;
         }
@@ -23,7 +24,8 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("ERROR: storage is overfilled. Resume with UUID = " + resume.getUuid() + " can't be saved.");
             return;
         }
-        insertResume(resume);
+        insertResume(index);
+        storage[-index - 1] = resume;
         resumeCounter++;
     }
 
@@ -67,10 +69,18 @@ public abstract class AbstractArrayStorage implements Storage {
         }
         storage[index] = resume;
     }
+    /*
+    method returns:
+    1. Positive Index in storage, including zero,  for existing element
+    2. Negative index for absent element. Result equals |index| of element, wich is next to absent element.
+     */
 
     protected abstract int getIndex(String uuid);
 
-    protected abstract void insertResume(Resume resume);
+    /*
+     * parametr index equals index of element in storage, wich is next to inserting element
+     * */
+    protected abstract void insertResume(int index);
 
     protected abstract void deleteResume(int index);
 }

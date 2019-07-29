@@ -1,6 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.model.Resume;
 /**
  * Array based storage for Resumes
  */
@@ -12,12 +11,13 @@ public class ArrayStorage extends AbstractArrayStorage{
                 return i;
             }
         }
-        return -1;
+        return -(resumeCounter+1);
     }
 
     @Override
-    protected void insertResume(Resume resume) {
-        storage[resumeCounter] = resume;
+    protected void insertResume(int index) {
+
+        //storage[resumeCounter] = resume;
     }
 
     @Override
