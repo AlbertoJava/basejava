@@ -24,18 +24,17 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("ERROR: storage is overfilled. Resume with UUID = " + resume.getUuid() + " can't be saved.");
             return;
         }
-        insertResume(index);
-        storage[-index - 1] = resume;
+        insertResume(index,resume);
         resumeCounter++;
     }
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index >= 0) {
-            return storage[index];
+        if (index < 0) {
+            System.out.println("ERROR: resume with UUID = " + uuid + " not founded.");
+            return null;
         }
-        System.out.println("ERROR: resume with UUID = " + uuid + " not founded.");
-        return null;
+        return storage[index];
     }
 
     public void delete(String uuid) {
@@ -80,7 +79,7 @@ public abstract class AbstractArrayStorage implements Storage {
     /*
      * parametr index equals index of element in storage, wich is next to inserting element
      * */
-    protected abstract void insertResume(int index);
+    protected abstract void insertResume(int index, Resume resume);
 
     protected abstract void deleteResume(int index);
 }
