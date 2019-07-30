@@ -46,7 +46,6 @@ public abstract class AbstractArrayStorage implements Storage {
         deleteResume(index);
         storage[resumeCounter - 1] = null;
         resumeCounter--;
-
     }
 
     /**

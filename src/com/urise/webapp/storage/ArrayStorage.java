@@ -13,7 +13,7 @@ public class ArrayStorage extends AbstractArrayStorage{
                 return i;
             }
         }
-        return -(resumeCounter+1);
+        return -1;
     }
 
     @Override
