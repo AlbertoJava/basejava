@@ -17,7 +17,7 @@ public class AbstractArrayStorageTest {
     private static final String UUID_3 = "UUID_3";
     private static String UNIQ_UUID;
     private static int size;
-    protected Storage storage = new ArrayStorage();
+    protected Storage storage;
 
     @Before
     public void setUp() {
@@ -35,6 +35,10 @@ public class AbstractArrayStorageTest {
                 break;
             }
         }
+    }
+
+    public AbstractArrayStorageTest(Storage storage) {
+        this.storage = storage;
     }
 
     private int fillStorage(int quantityElements) {

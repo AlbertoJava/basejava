@@ -9,6 +9,10 @@ import java.lang.reflect.Method;
 
 public class ArrayStorageTest extends AbstractArrayStorageTest {
 
+    public ArrayStorageTest() {
+        super(new ArrayStorage());
+    }
+
     @Test
     public void getIndex() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String uuid = storage.getAll()[0].getUuid();

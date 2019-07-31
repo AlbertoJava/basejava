@@ -9,6 +9,10 @@ import java.lang.reflect.Method;
 
 public class SortedArrayStorageTest extends AbstractArrayStorageTest {
 
+    public SortedArrayStorageTest() {
+        super(new SortedArrayStorage());
+    }
+
     @Test
     public void getIndex() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String uuid = storage.getAll()[0].getUuid();
@@ -20,15 +24,15 @@ public class SortedArrayStorageTest extends AbstractArrayStorageTest {
     public void insertResume() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Resume resume = new Resume("UUID");
         Method insertResume = storage.getClass().getDeclaredMethod("insertResume", int.class, Resume.class);
-        insertResume.invoke(storage, 5, resume);
-        Assert.assertNotEquals(resume, storage.getAll()[0]);
+        insertResume.invoke(storage,-1, resume);
+        Assert.assertEquals(resume, storage.getAll()[0]);
     }
 
     @Test
     public void deleteResume() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Resume resume_next = storage.getAll()[1];
-        Method insertResume = storage.getClass().getDeclaredMethod("deleteResume", int.class);
-        insertResume.invoke(storage, 0);
-        Assert.assertNotEquals(resume_next, storage.getAll()[0]);
+        Method deleteResume = storage.getClass().getDeclaredMethod("deleteResume", int.class);
+        deleteResume.invoke(storage, 0);
+        Assert.assertEquals(resume_next, storage.getAll()[0]);
     }
 }
