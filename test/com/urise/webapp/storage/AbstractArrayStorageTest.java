@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
+import static com.urise.webapp.storage.AbstractArrayStorage.MAX_SIZE;
 
 public abstract class AbstractArrayStorageTest {
     private static final String UUID_1 = "UUID_1";
@@ -47,9 +47,9 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void saveNotExist() {
-        int size = storage.size();
+        int sizeBefore = storage.size();
         storage.save(R_4);
-        Assert.assertEquals(storage.size(), size + 1);
+        Assert.assertEquals(storage.size(), sizeBefore + 1);
         Assert.assertEquals(R_4, storage.get(UUID_4));
     }
 
@@ -81,11 +81,7 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] arrResume = storage.getAll();
-        Assert.assertEquals(3, arrResume.length);
-        Assert.assertEquals(R_1, arrResume[0]);
-        Assert.assertEquals(R_2, arrResume[1]);
-        Assert.assertEquals(R_3, arrResume[2]);
+        Assert.assertArrayEquals(storage.getAll(), new Resume[]{R_1, R_2, R_3});
     }
 
     @Test
@@ -94,10 +90,7 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test(expected = StorageException.class)
-    public void sizeOverLoaded() throws NoSuchFieldException, IllegalAccessException {
-        Field arr_size = storage.getClass().getSuperclass().getDeclaredField("MAX_SIZE");
-        arr_size.setAccessible(true);
-        Integer MAX_SIZE = (Integer) arr_size.get(storage);
+    public void sizeOverLoaded() {
         try {
             for (int i = 4; i <= MAX_SIZE; i++) {
                 storage.save(new Resume());
@@ -110,16 +103,15 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void updateExist() {
-        Resume r_before = storage.getAll()[0];
-        Resume r_after = new Resume(storage.getAll()[0].getUuid());
-        storage.update(r_after);
-        Assert.assertFalse(storage.getAll()[0] == r_before);
+        Resume rBefore = storage.get(UUID_1);
+        Resume rAfter = new Resume(UUID_1);
+        storage.update(rAfter);
+        Assert.assertNotSame(storage.get(UUID_1), rBefore);
     }
 
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() {
-        Resume r_after = new Resume("test");
-        storage.update(r_after);
+        Resume rAfter = new Resume("test");
+        storage.update(rAfter);
     }
-
 }

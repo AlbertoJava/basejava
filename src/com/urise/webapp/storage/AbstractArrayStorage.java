@@ -8,7 +8,7 @@ import com.urise.webapp.model.Resume;
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
-    private static final int MAX_SIZE = 10_0000;
+    protected static final int MAX_SIZE = 10_0000;
     protected Resume[] storage = new Resume[MAX_SIZE];
     protected int resumeCounter = 0;
 
