@@ -3,7 +3,7 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 
 /**
- * Array based storage for Resumes
+ * Array based mapStorage for Resumes
  */
 public interface Storage {
 

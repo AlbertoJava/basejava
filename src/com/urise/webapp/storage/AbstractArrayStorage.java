@@ -56,13 +56,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     /*
         method returns:
-        1. Positive Index in storage, including zero,  for existing element
+        1. Positive Index in mapStorage, including zero,  for existing element
         2. Negative index for absent element. Result equals |index| of element, wich is next to absent element.
          */
     protected abstract Integer getSearchKey(String uuid);
 
     /*
-     * parametr index equals index of element in storage, wich is next to inserting element
+     * parametr index equals index of element in mapStorage, wich is next to inserting element
      * */
     protected abstract void insertResume(int index, Resume resume);
 

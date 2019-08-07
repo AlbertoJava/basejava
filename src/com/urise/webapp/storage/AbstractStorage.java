@@ -52,7 +52,7 @@ public abstract class AbstractStorage implements Storage {
     }
 
     /**
-     * @return array, contains only Resumes in storage (without null)
+     * @return array, contains only Resumes in mapStorage (without null)
      */
 
 

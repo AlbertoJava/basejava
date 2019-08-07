@@ -18,9 +18,10 @@ public abstract class AbstractStorageTest {
     private static final String UUID_4 = "UUID_4";
     private static final Resume R_1 = new Resume(UUID_1);
     private static final Resume R_2 = new Resume(UUID_2);
+    private static final Resume R_3 = new Resume(UUID_3);
     private static final Resume R_4 = new Resume(UUID_4);
     protected Storage storage;
-    private static final Resume R_3 = new Resume(UUID_3);
+
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -90,20 +91,21 @@ public abstract class AbstractStorageTest {
         assertEquals(storage.size(), 3);
     }
 
-    @Test(expected = AssertionError.class)
+    @Test(expected = StorageException.class)
     public void sizeOverLoaded() {
         try {
+/*
             if (!(storage instanceof AbstractArrayStorage)) {
                 throw new StorageException("Is not instance of AbstractArrayStorage",null );
             }
+*/
             for (int i = 4; i <= MAX_SIZE; i++) {
                 storage.save(new Resume());
             }
-            storage.save(new Resume());
         } catch (StorageException e) {
             fail();
         }
-
+        storage.save(new Resume());
     }
 
     @Test
