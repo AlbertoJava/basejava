@@ -2,13 +2,12 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 
-import static com.urise.webapp.storage.AbstractArrayStorage.MAX_SIZE;
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
@@ -27,7 +26,6 @@ public abstract class AbstractStorageTest {
         this.storage = storage;
     }
 
-    /*создается перед каждым методом*/
     @Before
     public void setUp() {
         storage.clear();
@@ -82,30 +80,13 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() {
-        assertArrayEquals( new Resume[]{R_1, R_2, R_3},storage.getAll());
+    public void getAllSorted() {
+        assertEquals(Arrays.asList(R_1, R_2, R_3),storage.getAllSorted());
     }
 
     @Test
     public void size() {
         assertEquals(storage.size(), 3);
-    }
-
-    @Test(expected = StorageException.class)
-    public void sizeOverLoaded() {
-        try {
-/*
-            if (!(storage instanceof AbstractArrayStorage)) {
-                throw new StorageException("Is not instance of AbstractArrayStorage",null );
-            }
-*/
-            for (int i = 4; i <= MAX_SIZE; i++) {
-                storage.save(new Resume());
-            }
-        } catch (StorageException e) {
-            fail();
-        }
-        storage.save(new Resume());
     }
 
     @Test

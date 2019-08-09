@@ -2,10 +2,18 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * Array based mapStorage for Resumes
  */
 public interface Storage {
+    Comparator<Resume> RESUME_COMAPATOR= (o1, o2) -> {
+        if (o1.getFullName().equals(o2.getFullName()))
+         return o1.getUuid().compareTo(o2.getUuid());
+        return o1.getFullName().compareTo(o2.getFullName());
+    };
 
     void clear();
 
@@ -15,7 +23,7 @@ public interface Storage {
 
     void delete(String uuid);
 
-    Resume[] getAll();
+    List<Resume> getAllSorted();
 
     int size();
 
