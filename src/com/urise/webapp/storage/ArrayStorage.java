@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
+
 /**
  * Array based mapStorage for Resumes
  */
@@ -15,6 +16,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
         return -1;
     }
+
 
     @Override
     protected void insertResume(int index, Resume resume) {

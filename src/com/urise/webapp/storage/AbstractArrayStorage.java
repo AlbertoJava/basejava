@@ -6,9 +6,15 @@ import com.urise.webapp.model.Resume;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int MAX_SIZE = 10_0000;
+
+    public Resume[] getStorage() {
+        return storage;
+    }
+
     protected Resume[] storage = new Resume[MAX_SIZE];
     protected int resumeCounter = 0;
 
@@ -47,6 +53,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         resumeCounter++;
     }
 
+    @Override
+    protected Stream<Resume> getStream() {
+        return Arrays.stream(storage,0,resumeCounter);
+    }
+
     public int size() {
         return resumeCounter;
     }
@@ -56,16 +67,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return (Integer) index >= 0;
     }
 
-    /*
-        method returns:
-        1. Positive Index in mapStorage, including zero,  for existing element
-        2. Negative index for absent element. Result equals |index| of element, wich is next to absent element.
-         */
-    protected abstract Integer getSearchKey(String uuid);
-
-    /*
-     * parametr index equals index of element in mapStorage, wich is next to inserting element
-     * */
     protected abstract void insertResume(int index, Resume resume);
 
     protected abstract void deleteResume(int index);

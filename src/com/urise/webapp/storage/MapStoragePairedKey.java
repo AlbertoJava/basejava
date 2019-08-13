@@ -6,9 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class MapStorage2Version extends AbstractStorage {
-    private Map<String, Resume> mapStorage = new HashMap();
+public class MapStoragePairedKey extends AbstractStorage {
+    private Map<String, Resume> mapStorage = new HashMap<>();
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
@@ -17,17 +18,17 @@ public class MapStorage2Version extends AbstractStorage {
 
     @Override
     protected boolean isExist(Object searchKey) {
-        return mapStorage.containsKey(((Resume)searchKey).getUuid());
+        return searchKey==null?false:true;
     }
 
     @Override
     protected void doSave(Resume resume, Object searchKey) {
-        mapStorage.put(((Resume)searchKey).getUuid(), resume);
+        mapStorage.put(resume.getUuid(), resume);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return mapStorage.get(((Resume)searchKey).getUuid());
+        return (Resume)searchKey;
     }
 
     @Override
@@ -46,8 +47,8 @@ public class MapStorage2Version extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        return mapStorage.values().stream().sorted(RESUME_COMAPATOR).collect(Collectors.toList());
+    public Stream<Resume> getStream() {
+        return mapStorage.values().stream();
     }
 
     @Override

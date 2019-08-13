@@ -5,6 +5,7 @@ import com.urise.webapp.model.Resume;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ListStorage extends AbstractStorage {
     private List<Resume> list = new ArrayList<>();
@@ -50,8 +51,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        return list.stream().sorted(RESUME_COMAPATOR).collect(Collectors.toList());
+    protected Stream<Resume> getStream() {
+        return list.stream();
     }
 
     @Override

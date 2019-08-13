@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MapStorage extends AbstractStorage {
     private Map<String, Resume> mapStorage = new HashMap();
@@ -46,8 +47,8 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        return mapStorage.values().stream().sorted(RESUME_COMAPATOR).collect(Collectors.toList());
+    protected Stream<Resume> getStream() {
+        return mapStorage.values().stream();
     }
 
     @Override

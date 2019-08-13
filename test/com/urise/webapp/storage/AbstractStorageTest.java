@@ -15,10 +15,11 @@ public abstract class AbstractStorageTest {
     private static final String UUID_2 = "UUID_2";
     private static final String UUID_3 = "UUID_3";
     private static final String UUID_4 = "UUID_4";
-    private static final Resume R_1 = new Resume(UUID_1);
-    private static final Resume R_2 = new Resume(UUID_2);
-    private static final Resume R_3 = new Resume(UUID_3);
-    private static final Resume R_4 = new Resume(UUID_4);
+    private static final Resume R_1 = new Resume(UUID_1,"FIO_1");
+    private static final Resume R_2 = new Resume(UUID_2,"FIO_2");
+    private static final Resume R_3 = new Resume(UUID_3,"FIO_3");
+    private static final Resume R_4 = new Resume(UUID_4,"FIO_4");
+
     protected Storage storage;
 
 
@@ -32,6 +33,10 @@ public abstract class AbstractStorageTest {
         storage.save(R_1);
         storage.save(R_2);
         storage.save(R_3);
+    }
+    @Test
+    public void test() {
+        return;
     }
 
     @Test
@@ -92,7 +97,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void updateExist() {
         Resume rBefore = storage.get(UUID_1);
-        Resume rAfter = new Resume(UUID_1);
+        Resume rAfter = new Resume(UUID_1,"FIO_1");
         storage.update(rAfter);
         assertNotSame(storage.get(UUID_1), rBefore);
     }
