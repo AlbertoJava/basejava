@@ -10,7 +10,8 @@ import java.util.List;
 
 
 public abstract class AbstractStorage implements Storage {
-    Comparator<Resume> RESUME_COMAPATOR= Comparator.comparing(Resume::getUuid);
+    protected final Comparator<Resume> RESUME_COMPARATOR_UUID = Comparator.comparing(Resume::getUuid);
+    protected final Comparator<Resume> RESUME_COMPARATOR_FULLNAME = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
 
     protected abstract void doUpdate(Resume resume, Object searchKey);
 
@@ -26,12 +27,11 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract List<Resume> doCopyAll();
 
-    public List<Resume> getAllSorted(){
-       List<Resume> list =doCopyAll();
-        Collections.sort(list);
-        return list;
+    public List<Resume> getAllSorted() {
+        List<Resume> resumes = doCopyAll();
+        Collections.sort(resumes, RESUME_COMPARATOR_FULLNAME);
+        return resumes;
     }
-
 
 
     public void save(Resume resume) {
@@ -66,10 +66,5 @@ public abstract class AbstractStorage implements Storage {
         }
         return searchKey;
     }
-
-    /**
-     * @return array, contains only Resumes in mapStorage (without null)
-     */
-
 
 }

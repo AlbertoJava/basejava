@@ -5,8 +5,6 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int MAX_SIZE = 10_000;
@@ -32,7 +30,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     public List<Resume> getAllSorted() {
-        return Arrays.stream(storage).limit(resumeCounter).collect(Collectors.toList());
+        List<Resume> sortedList = doCopyAll();
+        sortedList.sort(RESUME_COMPARATOR_FULLNAME);
+        return sortedList;
     }
 
     @Override
@@ -45,13 +45,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         if (resumeCounter >= MAX_SIZE) {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
-        insertResume(resume,(Integer) index);
+        insertResume(resume, (Integer) index);
         resumeCounter++;
     }
 
     @Override
     protected List<Resume> doCopyAll() {
-        return Arrays.asList(Arrays.copyOfRange(storage,0,resumeCounter));
+        return Arrays.asList(Arrays.copyOfRange(storage, 0, resumeCounter));
     }
 
     public int size() {

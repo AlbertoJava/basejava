@@ -4,8 +4,6 @@ import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ListStorage extends AbstractStorage {
     private List<Resume> list = new ArrayList<>();

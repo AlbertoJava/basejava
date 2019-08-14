@@ -2,7 +2,6 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.Comparator;
 import java.util.List;
 
 /**
