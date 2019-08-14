@@ -2,14 +2,11 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.*;
+
 
 public class MapStorage extends AbstractStorage {
-    private Map<String, Resume> mapStorage = new HashMap();
+    private Map<String, Resume> mapStorage = new HashMap<>();
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
@@ -47,8 +44,8 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Stream<Resume> getStream() {
-        return mapStorage.values().stream();
+    protected List<Resume> doCopyAll() {
+        return new ArrayList<>(mapStorage.values());
     }
 
     @Override

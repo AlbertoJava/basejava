@@ -9,11 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
-    protected static final int MAX_SIZE = 10_0000;
-
-    public Resume[] getStorage() {
-        return storage;
-    }
+    protected static final int MAX_SIZE = 10_000;
 
     protected Resume[] storage = new Resume[MAX_SIZE];
     protected int resumeCounter = 0;
@@ -24,8 +20,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume doGet(Object existedSearchKey) {
-        return storage[(Integer) existedSearchKey];
+    protected Resume doGet(Object index) {
+        return storage[(Integer) index];
     }
 
     @Override
@@ -49,13 +45,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         if (resumeCounter >= MAX_SIZE) {
             throw new StorageException("Storage overflow", resume.getUuid());
         }
-        insertResume((Integer) index, resume);
+        insertResume(resume,(Integer) index);
         resumeCounter++;
     }
 
     @Override
-    protected Stream<Resume> getStream() {
-        return Arrays.stream(storage,0,resumeCounter);
+    protected List<Resume> doCopyAll() {
+        return Arrays.asList(Arrays.copyOfRange(storage,0,resumeCounter));
     }
 
     public int size() {
@@ -67,7 +63,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return (Integer) index >= 0;
     }
 
-    protected abstract void insertResume(int index, Resume resume);
+    protected abstract void insertResume(Resume resume, int index);
 
     protected abstract void deleteResume(int index);
 }

@@ -12,19 +12,20 @@ import java.util.stream.Stream;
 public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
     protected Integer getSearchKey(String uuid) {
-        Resume resume = new Resume(uuid,"FIO_1");
-        if (resumeCounter==0) return -1;
-        String[] uuids = Arrays.stream(storage).limit(resumeCounter).map(r->r.getUuid()).toArray(String[]::new);
+        Resume resume = new Resume(uuid,"defaultFullName");
+       // if (resumeCounter==0) return -1;
+       // String[] uuids = Arrays.stream(storage).limit(resumeCounter).map(r->r.getUuid()).toArray(String[]::new);
        // Arrays.stream(storage).filter(r->r.getUuid().equals(uuid)).count();
         //return Arrays.binarySearch(storage, 0, resumeCounter, resume);
         /* Arrays.stream(storage)
                 .sorted(Comparator.comparing(Resume::getUuid))
                 .toArray();*/
-        return Arrays.binarySearch(uuids,uuid);
+        //return Arrays.binarySearch(uuids,uuid);
+        return  Arrays.binarySearch(storage,0,resumeCounter,resume,RESUME_COMAPATOR);
     }
 
     @Override
-    protected void insertResume(int index, Resume resume) {
+    protected void insertResume(Resume resume, int index) {
         int indexResume = -index - 1;
         System.arraycopy(storage, indexResume, storage, indexResume + 1, resumeCounter - indexResume);
         storage[indexResume] = resume;
