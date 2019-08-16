@@ -4,14 +4,16 @@ import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int MAX_SIZE = 10_000;
-
+    protected final Comparator<Resume> RESUME_COMPARATOR_UUID = Comparator.comparing(Resume::getUuid);
     protected Resume[] storage = new Resume[MAX_SIZE];
     protected int resumeCounter = 0;
 
+    @Override
     public void clear() {
         Arrays.fill(storage, 0, resumeCounter, null);
         resumeCounter = 0;
@@ -27,12 +29,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         deleteResume((Integer) index);
         storage[resumeCounter - 1] = null;
         resumeCounter--;
-    }
-
-    public List<Resume> getAllSorted() {
-        List<Resume> sortedList = doCopyAll();
-        sortedList.sort(RESUME_COMPARATOR_FULLNAME);
-        return sortedList;
     }
 
     @Override
@@ -54,6 +50,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return Arrays.asList(Arrays.copyOfRange(storage, 0, resumeCounter));
     }
 
+    @Override
     public int size() {
         return resumeCounter;
     }

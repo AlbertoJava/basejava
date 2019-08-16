@@ -8,6 +8,7 @@ import com.urise.webapp.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
+    @Override
     protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < resumeCounter; i++) {
             if (storage[i].getUuid().equals(uuid)) {
