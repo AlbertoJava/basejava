@@ -1,7 +1,6 @@
 package com.urise.webapp.model;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Initial resume class
@@ -12,6 +11,10 @@ public class Resume {
     private final String uuid;
     private final String fullName;
 
+    private final Map<ContactType, String> contacs = new EnumMap<>(ContactType.class);
+    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+
+
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
     }
@@ -21,6 +24,13 @@ public class Resume {
         Objects.requireNonNull(uuid, "uuid must not be null");
         this.uuid = uuid;
         this.fullName = fullName;
+    }
+
+    public String getContact (ContactType type){
+        return contacs.get(type);
+    }
+    public Section getSection (SectionType type){
+        return sections.get(type);
     }
 
     public String getUuid() {
