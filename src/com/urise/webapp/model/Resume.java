@@ -33,6 +33,14 @@ public class Resume {
         return sections.get(type);
     }
 
+    public void addSection (SectionType type, Section section){
+        sections.put(type,section);
+    }
+    public void addContact (ContactType type, String contact){
+        contacs.put(type,contact);
+    }
+
+
     public String getUuid() {
         return uuid;
     }
