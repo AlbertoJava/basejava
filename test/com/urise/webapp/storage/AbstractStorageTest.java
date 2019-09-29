@@ -30,42 +30,10 @@ public abstract class AbstractStorageTest {
     protected Storage storage;
 
     static {
-        List<Organization> organizationList = new ArrayList<>();
-        organizationList.add(new Organization("JOB_1","http://job_1.org",
-                LocalDate.of(2001,01,30 ),
-                LocalDate.of(2002,01,30 ),
-                "Title1",
-                "description1"));
-        organizationList.add(new Organization("JOB_2","http://job_2.org",
-                LocalDate.of(2001,01,30 ),
-                LocalDate.of(2002,01,30 ),
-                "Title2",
-                "description2"));
-
-        R_1.addSection(SectionType.PERSONAL, new TextSection("This is describing string of myown!"));
-        R_1.addSection(SectionType.OBJECTIVE, new TextSection("This is describing string of willing position!"));
-        List <String> qualifications = new ArrayList<>();
-        qualifications.add("This is  string №" + 0 + " describing qualifications!");
-        R_1.addSection(SectionType.QUALIFICATIONS, new ListSection(qualifications));
-        List <String> achivements = new ArrayList<>();
-        achivements.add("This is  string №" + 0 + " describing achievements!");
-        R_1.addSection(SectionType.ACHIEVEMENT, new ListSection(achivements));
-        R_1.addSection(SectionType.EXPIRIENCE,new OrganizationSection (organizationList));
-
-        List<Organization> educationList = new ArrayList<>();
-        educationList.add(new Organization("VUZ_1","http://vuz_1.org",
-                LocalDate.of(2001,01,30 ),
-                LocalDate.of(2002,01,30 ),
-                "Title1",
-                "description1"));
-        educationList.add(new Organization("VUZ_2","http://vuz_2.org",
-                LocalDate.of(2001,01,30 ),
-                LocalDate.of(2002,01,30 ),
-                "Title2",
-                "description2"));
-
-        R_1.addSection(SectionType.EDUCATION, new OrganizationSection(educationList));
-
+        ResumeDataTest.fillResumeSections(R_1,3,3,3,3);
+        ResumeDataTest.fillResumeSections(R_2,4,4,4,4);
+        ResumeDataTest.fillResumeSections(R_3,5,5,5,5);
+        ResumeDataTest.fillResumeSections(R_4,6,6,6,6);
     }
 
     protected AbstractStorageTest(Storage storage) {

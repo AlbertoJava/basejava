@@ -55,6 +55,8 @@ public abstract class AbstractFileStorage extends AbstractStorage {
     @Override
     protected Resume doGet(Object searchKey) {
         //абстрактный останется
+
+
         return null;
     }
 
@@ -74,9 +76,13 @@ public abstract class AbstractFileStorage extends AbstractStorage {
     protected List<Resume> doCopyAll() {
         //читает все файлы и делает do Read и возвращает list
         List<Resume> resumes = new ArrayList<>();
-        for (File f:
-        directory.listFiles()) {
-            resumes.add(doRead(f));
+        try {
+            for (File f : directory.listFiles()) {
+                resumes.add(doRead(f));
+            }
+        }
+        catch (NullPointerException e){
+            throw new StorageException("FileStorage got empty list of files","",e);
         }
         return resumes;
     }

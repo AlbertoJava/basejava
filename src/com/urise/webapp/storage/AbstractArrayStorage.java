@@ -9,7 +9,6 @@ import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int MAX_SIZE = 10_000;
-    protected final Comparator<Resume> RESUME_COMPARATOR_UUID = Comparator.comparing(Resume::getUuid);
     protected Resume[] storage = new Resume[MAX_SIZE];
     protected int resumeCounter = 0;
 

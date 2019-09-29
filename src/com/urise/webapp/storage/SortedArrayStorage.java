@@ -3,8 +3,12 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
+
+    protected final Comparator<Resume> RESUME_COMPARATOR_UUID = Comparator.comparing(Resume::getUuid);
+
     @Override
     protected Integer getSearchKey(String uuid) {
         Resume resume = new Resume(uuid, "defaultFullName");
