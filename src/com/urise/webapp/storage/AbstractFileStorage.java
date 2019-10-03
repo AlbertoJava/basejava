@@ -13,22 +13,22 @@ public abstract class AbstractFileStorage extends AbstractStorage {
     private File directory;
 
     protected AbstractFileStorage(File directory) {
-        Objects.requireNonNull(directory,"directory must not null");
-        if (directory.isDirectory()){
-            throw new IllegalArgumentException(directory.getAbsolutePath() +  " is not directory");
+        Objects.requireNonNull(directory, "directory must not null");
+        if (directory.isDirectory()) {
+            throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
         }
-        if (directory.canRead()||directory.canWrite()){
-            throw new IllegalArgumentException(directory.getAbsolutePath() +  " is not readable/writable");
+        if (directory.canRead() || directory.canWrite()) {
+            throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
         }
-        this.directory=directory;
+        this.directory = directory;
     }
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
         //как doSave только в существующий
-        File f = (File)searchKey;
+        File f = (File) searchKey;
         try {
-            doWrite(resume,f);
+            doWrite(resume, f);
         } catch (IOException e) {
             throw new StorageException("IO error", f.getName(), e);
         }
@@ -36,15 +36,15 @@ public abstract class AbstractFileStorage extends AbstractStorage {
 
     @Override
     protected boolean isExist(Object file) {
-        return ((File)file).exists();
+        return ( (File) file).exists();
     }
 
     @Override
     protected void doSave(Resume resume, Object file) {
-        File f =((File)file);
+        File f = ((File) file);
         try {
             f.createNewFile();
-            doWrite (resume,f);
+            doWrite(resume, f);
         } catch (IOException e) {
             throw new StorageException("IO error", f.getName(), e);
         }
@@ -54,35 +54,31 @@ public abstract class AbstractFileStorage extends AbstractStorage {
 
     @Override
     protected Resume doGet(Object searchKey) {
-        //абстрактный останется
-
-
-        return null;
+        return doRead ((File)searchKey);
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        File f= (File)searchKey;
+        File f = (File) searchKey;
         f.delete();
 //удаляет файл
     }
 
     @Override
     protected Object getSearchKey(String uuid) {
-        return new File(directory,uuid);
+        return new File(directory, uuid);
     }
 
     @Override
     protected List<Resume> doCopyAll() {
         //читает все файлы и делает do Read и возвращает list
-        List<Resume> resumes = new ArrayList<>();
-        try {
-            for (File f : directory.listFiles()) {
-                resumes.add(doRead(f));
-            }
+        File[] arrFiles = directory.listFiles();
+        if (arrFiles == null) {
+            throw new StorageException("Resume files not founded in directory " + directory.getAbsolutePath() , "");
         }
-        catch (NullPointerException e){
-            throw new StorageException("FileStorage got empty list of files","",e);
+        List<Resume> resumes = new ArrayList<>();
+        for (File f : arrFiles) {
+            resumes.add(doRead(f));
         }
         return resumes;
     }
@@ -92,7 +88,7 @@ public abstract class AbstractFileStorage extends AbstractStorage {
     @Override
     public void clear() {
         //получить все файлыиз каталога и удалить
-        for (File f:
+        for (File f :
                 directory.listFiles()) {
             f.delete();
         }

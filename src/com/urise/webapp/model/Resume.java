@@ -1,6 +1,9 @@
 package com.urise.webapp.model;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Initial resume class
@@ -26,6 +29,7 @@ public class Resume {
         this.fullName = fullName;
     }
 
+<<<<<<< HEAD
 
     public String getContact (ContactType type){
         return contacts.get(type);
@@ -41,6 +45,22 @@ public class Resume {
 
     public void addContact (ContactType type, String contact){
         contacts.put(type,contact);
+=======
+    public String getContact(ContactType type) {
+        return contacs.get(type);
+    }
+
+    public Section getSection(SectionType type) {
+        return sections.get(type);
+    }
+
+    public void addSection(SectionType type, Section section) {
+        sections.put(type, section);
+    }
+
+    public void addContact(ContactType type, String contact) {
+        contacs.put(type, contact);
+>>>>>>> lesson 8.
     }
 
 
