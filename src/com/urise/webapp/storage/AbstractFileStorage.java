@@ -54,10 +54,7 @@ public abstract class AbstractFileStorage extends AbstractStorage {
 
     @Override
     protected Resume doGet(Object searchKey) {
-        //абстрактный останется
-
-
-        return null;
+         return doRead((File)searchKey);
     }
 
     @Override
@@ -68,7 +65,7 @@ public abstract class AbstractFileStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected File getSearchKey(String uuid) {
         return new File(directory,uuid);
     }
 
@@ -76,14 +73,13 @@ public abstract class AbstractFileStorage extends AbstractStorage {
     protected List<Resume> doCopyAll() {
         //читает все файлы и делает do Read и возвращает list
         List<Resume> resumes = new ArrayList<>();
-        try {
+        File[] files = directory.listFiles();
+        if (files==null){
+            return resumes;
+        }
             for (File f : directory.listFiles()) {
                 resumes.add(doRead(f));
             }
-        }
-        catch (NullPointerException e){
-            throw new StorageException("FileStorage got empty list of files","",e);
-        }
         return resumes;
     }
 
@@ -92,8 +88,11 @@ public abstract class AbstractFileStorage extends AbstractStorage {
     @Override
     public void clear() {
         //получить все файлыиз каталога и удалить
-        for (File f:
-                directory.listFiles()) {
+        File[] files =directory.listFiles();
+        if (files==null) {
+            return;
+        }
+        for (File f: files) {
             f.delete();
         }
     }
@@ -101,6 +100,7 @@ public abstract class AbstractFileStorage extends AbstractStorage {
     @Override
     public int size() {
         //количество фалов в каталоге
-        return directory.listFiles().length;
+        File[] files = directory.listFiles();
+        return files==null?0:files.length;
     }
 }
