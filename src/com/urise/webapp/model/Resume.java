@@ -70,7 +70,6 @@ public class Resume {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(uuid, fullName, contacts, sections);
     }
 }

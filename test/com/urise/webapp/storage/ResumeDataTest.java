@@ -11,21 +11,23 @@ public class ResumeDataTest {
 public static Resume fillResumeSections (Resume r, int countJobOrganization, int countEducationOrganization, int countQualification, int countAchivements){
 
     List<Organization> organizationList = new ArrayList<>();
+    List<Organization.Position> positions;
     for (int i=0;i<countJobOrganization;i++){
-        organizationList.add(new Organization("JOB_" + i,"http://job_"+ 1+".org",
-                LocalDate.of(2001,01,30 ),
-                LocalDate.of(2002,01,30 ),
-                "Title_"+i,
-                "description_"+i));
+         positions= getPositions(i);
+        organizationList.add(new Organization(
+                "JOB_" + i,
+                "http://job_"+ 1+".org",
+                positions));
     }
 
     List<Organization> educationList = new ArrayList<>();
     for (int i=0;i<countEducationOrganization;i++){
-        organizationList.add(new Organization("Education_" + i,"http://education_"+ 1+".org",
-                LocalDate.of(2001,01,30 ),
-                LocalDate.of(2002,01,30 ),
-                "Title_"+i,
-                "description_"+i));
+        positions= getPositions(i);
+        organizationList.add(new Organization(
+                "Education_" + i,
+                "http://education_"+ 1+".org",
+                positions
+                ));
     }
 
     List <String> qualifications = new ArrayList<>();
@@ -43,6 +45,21 @@ public static Resume fillResumeSections (Resume r, int countJobOrganization, int
     r.addSection(SectionType.ACHIEVEMENT, new ListSection(achivements));
     r.addSection(SectionType.EXPIRIENCE,new OrganizationSection (organizationList));
     r.addSection(SectionType.EDUCATION, new OrganizationSection(educationList));
+    r.addContact(ContactType.MAIL, "mail@mail.ru");
+    r.addContact(ContactType.PHONE,"1111-11-1111");
     return r;
 }
+
+    private static List<Organization.Position> getPositions(int organizationNumber) {
+        List<Organization.Position> positions = new ArrayList<>();
+        for (int j=0;j<3;j++){
+            positions.add(new Organization.Position(
+                    LocalDate.of(2000 + j,1,1),
+                    LocalDate.of(2001 + j,12,31),
+                    "Position title " + organizationNumber +"_"+j,
+                    "Position description " + organizationNumber +"_"+j
+            ));
+        }
+        return positions;
+    }
 }
