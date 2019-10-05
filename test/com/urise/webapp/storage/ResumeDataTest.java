@@ -23,7 +23,7 @@ public static Resume fillResumeSections (Resume r, int countJobOrganization, int
     List<Organization> educationList = new ArrayList<>();
     for (int i=0;i<countEducationOrganization;i++){
         positions= getPositions(i);
-        organizationList.add(new Organization(
+        educationList.add(new Organization(
                 "Education_" + i,
                 "http://education_"+ 1+".org",
                 positions

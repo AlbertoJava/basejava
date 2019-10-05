@@ -6,6 +6,7 @@ import com.urise.webapp.model.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +27,7 @@ public abstract class AbstractStorageTest {
     private static final Resume R_3 = new Resume(UUID_3, "FullName_3");
     private static final Resume R_4 = new Resume(UUID_4, "FullName_4");
 
-
+    protected static final File STORAGE_DIR = new File("C:\\Java\\FileStorage");
     protected Storage storage;
 
     static {
