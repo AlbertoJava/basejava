@@ -7,7 +7,7 @@ import java.util.*;
  * Initial resume class
  */
 public class Resume implements Serializable {
-private static final long serialVersionUID =1L;
+    public static final long serialVersionUID = 1L;
     // Unique identifier
     private final String uuid;
     private final String fullName;
