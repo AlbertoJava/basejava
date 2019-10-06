@@ -1,6 +1,5 @@
 package com.urise.webapp.model;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +13,7 @@ public class ListSection extends AbstractSection {
     }
 
     public ListSection(List<String> items) {
-        Objects.requireNonNull(items,"items must not null");
+        Objects.requireNonNull(items, "items must not null");
         this.items = items;
     }
 

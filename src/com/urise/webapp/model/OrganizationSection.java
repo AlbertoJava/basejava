@@ -1,6 +1,5 @@
 package com.urise.webapp.model;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +13,7 @@ public class OrganizationSection extends AbstractSection {
     }
 
     public OrganizationSection(List<Organization> organizations) {
-        Objects.requireNonNull(organizations,"organizations must not null");
+        Objects.requireNonNull(organizations, "organizations must not null");
         this.organizations = organizations;
     }
 

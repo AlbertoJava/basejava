@@ -11,18 +11,17 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.urise.webapp.util.DateUtil.NOW;
-import static com.urise.webapp.util.DateUtil.of;
 
-public class Organization  implements Serializable {
+public class Organization implements Serializable {
     private final Link homePage;
     private List<Position> positions = new ArrayList<>();
 
     public Organization(String name, String url, Position... positions) {
-        this ( new Link(name, url), Arrays.asList(positions));
+        this(new Link(name, url), Arrays.asList(positions));
     }
 
     public Organization(String name, String url, List<Position> positions) {
-        this ( new Link(name, url),positions);
+        this(new Link(name, url), positions);
     }
 
     public Organization(Link homePage, List<Position> positions) {
@@ -32,7 +31,7 @@ public class Organization  implements Serializable {
 
     @Override
     public String toString() {
-        return "Organization(" + homePage +positions +')';
+        return "Organization(" + homePage + positions + ')';
     }
 
     @Override
@@ -53,18 +52,18 @@ public class Organization  implements Serializable {
         return result;
     }
 
-    public static class Position  implements Serializable{
+    public static class Position implements Serializable {
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String title;
         private final String description;
 
-        public Position(int startYear, Month startMonth,  String title, String description) {
-            this (DateUtil.of(startYear,startMonth), NOW,title, description);
+        public Position(int startYear, Month startMonth, String title, String description) {
+            this(DateUtil.of(startYear, startMonth), NOW, title, description);
         }
 
-        public Position(int startYear, Month startMonth, int endYear, Month endMonth,  String title, String description) {
-            this (DateUtil.of(startYear,startMonth), DateUtil.of(endYear,endMonth),title, description);
+        public Position(int startYear, Month startMonth, int endYear, Month endMonth, String title, String description) {
+            this(DateUtil.of(startYear, startMonth), DateUtil.of(endYear, endMonth), title, description);
         }
 
         public Position(LocalDate startDate, LocalDate endDate, String title, String description) {

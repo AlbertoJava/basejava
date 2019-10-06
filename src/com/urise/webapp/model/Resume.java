@@ -1,7 +1,10 @@
 package com.urise.webapp.model;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Initial resume class
@@ -28,20 +31,20 @@ public class Resume implements Serializable {
     }
 
 
-    public String getContact (ContactType type){
+    public String getContact(ContactType type) {
         return contacts.get(type);
     }
 
-    public AbstractSection getSection (SectionType type){
+    public AbstractSection getSection(SectionType type) {
         return sections.get(type);
     }
 
-    public void addSection (SectionType type, AbstractSection section){
-        sections.put(type,section);
+    public void addSection(SectionType type, AbstractSection section) {
+        sections.put(type, section);
     }
 
-    public void addContact (ContactType type, String contact){
-        contacts.put(type,contact);
+    public void addContact(ContactType type, String contact) {
+        contacts.put(type, contact);
     }
 
 

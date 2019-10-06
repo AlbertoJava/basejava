@@ -2,40 +2,35 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.model.*;
+import com.urise.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
 public abstract class AbstractStorageTest {
+    protected static final File STORAGE_DIR = new File("C:\\Java\\FileStorage");
     private static final String UUID_1 = "UUID_1";
     private static final String UUID_2 = "UUID_2";
     private static final String UUID_3 = "UUID_3";
     private static final String UUID_4 = "UUID_4";
-
     private static final Resume R_1 = new Resume(UUID_1, "FullName_1");
     private static final Resume R_2 = new Resume(UUID_2, "FullName_2");
     private static final Resume R_3 = new Resume(UUID_3, "FullName_3");
     private static final Resume R_4 = new Resume(UUID_4, "FullName_4");
 
-    protected static final File STORAGE_DIR = new File("C:\\Java\\FileStorage");
-    protected Storage storage;
-
     static {
-        ResumeDataTest.fillResumeSections(R_1,3,3,3,3);
-        ResumeDataTest.fillResumeSections(R_2,4,4,4,4);
-        ResumeDataTest.fillResumeSections(R_3,5,5,5,5);
-        ResumeDataTest.fillResumeSections(R_4,6,6,6,6);
+        ResumeDataTest.fillResumeSections(R_1, 3, 3, 3, 3);
+        ResumeDataTest.fillResumeSections(R_2, 4, 4, 4, 4);
+        ResumeDataTest.fillResumeSections(R_3, 5, 5, 5, 5);
+        ResumeDataTest.fillResumeSections(R_4, 6, 6, 6, 6);
     }
+
+    protected Storage storage;
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
