@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public abstract class AbstractPathStorage extends AbstractStorage {
     private Path directory;
@@ -30,9 +31,9 @@ public abstract class AbstractPathStorage extends AbstractStorage {
 
     @Override
     protected void doUpdate(Resume resume, Object searchKey) {
-        File file = (File) searchKey;
+        Path file = (Path) searchKey;
         try {
-            doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
+            doWrite(resume, new BufferedOutputStream(new FileOutputStream(file.toString())));
         } catch (IOException e) {
             throw new StorageException("File write error", resume.getUuid(), e);
         }
@@ -40,53 +41,55 @@ public abstract class AbstractPathStorage extends AbstractStorage {
 
     @Override
     protected boolean isExist(Object file) {
-        return ((File) file).exists();
+        Path path=(Path)file;
+        return Files.isRegularFile(path);
     }
 
     @Override
     protected void doSave(Resume resume, Object file) {
-        File f = ((File) file);
+        Path path = ((Path) file);
         try {
-
-            f.createNewFile();
+            Files.createFile(path);
         } catch (IOException e) {
-            throw new StorageException("Couldn't create file " + f.getAbsolutePath(), f.getName(), e);
+            throw new StorageException("Couldn't create file " + path.toString(), path.getFileName().toString(), e);
         }
-        doUpdate(resume, f);
+        doUpdate(resume, path);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        File file = (File) searchKey;
+        Path path = (Path) searchKey;
         try {
-            return doRead(new BufferedInputStream(new FileInputStream(file)));
+            return doRead(new BufferedInputStream(new FileInputStream(path.toString())));
         } catch (IOException e) {
-            throw new StorageException("File read error", file.getName(), e);
+            throw new StorageException("File read error", path.toString(), e);
         }
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        File f = (File) searchKey;
-        f.delete();
+        Path path = (Path) searchKey;
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
+            throw new StorageException("File deleting error " + path.toString(),path.toString(),e);
+        }
 //удаляет файл
     }
 
     @Override
-    protected File getSearchKey(String uuid) {
-        return new File(directory, uuid);
+    protected Path getSearchKey(String uuid) {
+        return directory.resolve(uuid);
     }
 
     @Override
     protected List<Resume> doCopyAll() {
-        //читает все файлы и делает do Read и возвращает list
-        List<Resume> resumes = new ArrayList<>();
-        File[] files = directory.listFiles();
-        if (files == null) {
-            return resumes;
-        }
-        for (File f : directory.listFiles()) {
-            resumes.add(doGet(f));
+        //читает все файлы и делает doRead и возвращает list
+        List<Resume> resumes;
+        try {
+            resumes=Files.list(directory).map(this::doGet).collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new StorageException("Files read error", null,e);
         }
         return resumes;
     }
@@ -96,14 +99,17 @@ public abstract class AbstractPathStorage extends AbstractStorage {
         try {
             Files.list(directory).forEach(this::doDelete);
         } catch (IOException e) {
-            throw new StorageException("Path delete error",null);
+            throw new StorageException("File delete error",null,e);
         }
     }
 
     @Override
     public int size() {
         //количество фалов в каталоге
-        File[] files = directory.listFiles();
-        return files == null ? 0 : files.length;
+        try {
+            return (int)Files.list(directory).count();
+        } catch (IOException e) {
+            throw new StorageException("Directory file read error",null,e);
+        }
     }
 }
