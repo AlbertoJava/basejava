@@ -15,7 +15,7 @@ public class FileStorage extends AbstractStorage {
 
     protected FileStorage(File directory, StreamSerializer streamSerializer) {
         Objects.requireNonNull(directory, "directory must not null");
-        this.streamSerializer=streamSerializer;
+        this.streamSerializer = streamSerializer;
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
         }

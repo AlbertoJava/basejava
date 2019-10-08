@@ -8,10 +8,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class PathStorage extends AbstractStorage {
@@ -21,8 +19,8 @@ public class PathStorage extends AbstractStorage {
     protected PathStorage(String dir, StreamSerializer streamSerializer) {
         Path directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not null");
-        this.streamSerializer=streamSerializer;
-        if (!Files.isDirectory(directory)||!Files.isWritable(directory) ) {
+        this.streamSerializer = streamSerializer;
+        if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
         }
         this.directory = directory;
@@ -40,7 +38,7 @@ public class PathStorage extends AbstractStorage {
 
     @Override
     protected boolean isExist(Object file) {
-        Path path=(Path)file;
+        Path path = (Path) file;
         return Files.isRegularFile(path);
     }
 
@@ -71,7 +69,7 @@ public class PathStorage extends AbstractStorage {
         try {
             Files.delete(path);
         } catch (IOException e) {
-            throw new StorageException("File deleting error " + path.toString(),path.toString(),e);
+            throw new StorageException("File deleting error " + path.toString(), path.toString(), e);
         }
 //удаляет файл
     }
@@ -86,9 +84,9 @@ public class PathStorage extends AbstractStorage {
         //читает все файлы и делает doRead и возвращает list
         List<Resume> resumes;
         try {
-            resumes=Files.list(directory).map(this::doGet).collect(Collectors.toList());
+            resumes = Files.list(directory).map(this::doGet).collect(Collectors.toList());
         } catch (IOException e) {
-            throw new StorageException("Files read error", null,e);
+            throw new StorageException("Files read error", null, e);
         }
         return resumes;
     }
@@ -98,7 +96,7 @@ public class PathStorage extends AbstractStorage {
         try {
             Files.list(directory).forEach(this::doDelete);
         } catch (IOException e) {
-            throw new StorageException("File delete error",null,e);
+            throw new StorageException("File delete error", null, e);
         }
     }
 
@@ -106,9 +104,9 @@ public class PathStorage extends AbstractStorage {
     public int size() {
         //количество фалов в каталоге
         try {
-            return (int)Files.list(directory).count();
+            return (int) Files.list(directory).count();
         } catch (IOException e) {
-            throw new StorageException("Directory file read error",null,e);
+            throw new StorageException("Directory file read error", null, e);
         }
     }
 }
