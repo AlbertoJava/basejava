@@ -21,12 +21,13 @@ public class ResumeDataTest {
         }
 
         List<Organization> educationList = new ArrayList<>();
+        List<Organization.Position> eduPositions;
         for (int i = 0; i < countEducationOrganization; i++) {
-            positions = getPositions(i);
-            organizationList.add(new Organization(
+            eduPositions = getPositions(i);
+            educationList.add(new Organization(
                     "Education_" + i,
                     "http://education_" + 1 + ".org",
-                    positions
+                    eduPositions
             ));
         }
 
