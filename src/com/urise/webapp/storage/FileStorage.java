@@ -83,7 +83,7 @@ public class FileStorage extends AbstractStorage {
         if (files == null) {
             return resumes;
         }
-        for (File f : directory.listFiles()) {
+        for (File f : files) {
             resumes.add(doGet(f));
         }
         return resumes;
