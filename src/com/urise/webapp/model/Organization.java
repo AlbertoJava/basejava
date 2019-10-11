@@ -56,6 +56,15 @@ public class Organization implements Serializable {
         result = 31 * result + (positions != null ? positions.hashCode() : 0);
         return result;
     }
+
+    public Link getHomePage() {
+        return homePage;
+    }
+
+    public List<Position> getPositions() {
+        return positions;
+    }
+
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable {
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
@@ -82,7 +91,7 @@ public class Organization implements Serializable {
             this.startDate = startDate;
             this.endDate = endDate;
             this.title = title;
-            this.description = description;
+            this.description = description==null?"":description;
         }
 
         public void setStartDate(LocalDate startDate) {
@@ -148,6 +157,7 @@ public class Organization implements Serializable {
                     ", description='" + description + '\'' +
                     '}';
         }
+
     }
 
 }

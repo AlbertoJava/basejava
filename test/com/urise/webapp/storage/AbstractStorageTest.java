@@ -66,6 +66,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getExist() {
+        R_1.equals(storage.get(UUID_1));
         assertEquals(R_1, storage.get(UUID_1));
         assertEquals(R_2, storage.get(UUID_2));
         assertEquals(R_3, storage.get(UUID_3));

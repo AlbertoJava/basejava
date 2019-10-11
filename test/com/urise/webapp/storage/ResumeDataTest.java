@@ -11,7 +11,7 @@ public class ResumeDataTest {
     public static Resume fillResumeSections(Resume r, int countJobOrganization, int countEducationOrganization, int countQualification, int countAchivements) {
 
         List<Organization> organizationList = new ArrayList<>();
-        List<Organization.Position> positions;
+        List<Organization.Position> positions=new ArrayList<>();
         for (int i = 0; i < countJobOrganization; i++) {
             positions = getPositions(i);
             organizationList.add(new Organization(
@@ -44,7 +44,7 @@ public class ResumeDataTest {
         r.addSection(SectionType.OBJECTIVE, new TextSection("This is describing string of willing position!"));
         r.addSection(SectionType.QUALIFICATIONS, new ListSection(qualifications));
         r.addSection(SectionType.ACHIEVEMENT, new ListSection(achivements));
-        r.addSection(SectionType.EXPIRIENCE, new OrganizationSection(organizationList));
+        r.addSection(SectionType.EXPERIENCE, new OrganizationSection(organizationList));
         r.addSection(SectionType.EDUCATION, new OrganizationSection(educationList));
         r.addContact(ContactType.MAIL, "mail@mail.ru");
         r.addContact(ContactType.PHONE, "1111-11-1111");
