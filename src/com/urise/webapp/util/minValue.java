@@ -30,12 +30,11 @@ public class minValue {
     }
 
     public static int minValue(Integer[] values) {
-        AtomicInteger x = new AtomicInteger();
-        return (int) Arrays.stream(values)
+
+ return Arrays.stream(values)
                 .distinct()
-                .sorted(Collections.reverseOrder())
-                .map((Function<Integer, Object>) elem -> elem * (int) Math.pow(10, x.getAndIncrement()))
-                .reduce((z, y) -> (Integer) z + (Integer) y).orElse(0);
+                .sorted()
+                .reduce((z, y) -> z*10 + y).orElse(0);
 
     }
 
@@ -56,10 +55,10 @@ public class minValue {
     }
 
     static List<Integer> oddOrEvenOptional(List<Integer> integers) {
-
         return integers.stream()
                 .collect(Collectors.partitioningBy((x) -> x % 2 == 0))
-                .getOrDefault(integers.stream().reduce((x1, x2) -> x1 + x2).get() % 2 != 0, new ArrayList<>());
+                .get(integers.stream()
+                        .reduce(0, (x1, x2) -> x1 += x2) % 2 != 0);
     }
 
 }
