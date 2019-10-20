@@ -19,7 +19,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public void clear() {
-         transactionExecute(ps -> ps.execute(), "DELETE FROM RESUME");
+        transactionExecute(ps -> ps.execute(), "DELETE FROM RESUME");
     }
 
     @Override
@@ -71,7 +71,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public int size() {
-           return transactionExecute(ps -> {
+        return transactionExecute(ps -> {
             ResultSet rs = ps.executeQuery();
             rs.next();
             return rs.getInt(1);
