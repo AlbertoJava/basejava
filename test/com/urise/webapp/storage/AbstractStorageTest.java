@@ -1,7 +1,9 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.Config;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("C:\\Java\\FileStorage");
+    protected static final File STORAGE_DIR = Config.getInstance().getStorageDir();
     private static final String UUID_1 = "UUID_1";
     private static final String UUID_2 = "UUID_2";
     private static final String UUID_3 = "UUID_3";
@@ -24,11 +26,11 @@ public abstract class AbstractStorageTest {
     private static final Resume R_4 = new Resume(UUID_4, "FullName_4");
 
     static {
-        ResumeDataTest.fillResumeSections(R_1, 3, 3, 3, 3);
+      /*  ResumeDataTest.fillResumeSections(R_1, 3, 3, 3, 3);
         ResumeDataTest.fillResumeSections(R_2, 4, 4, 4, 4);
         ResumeDataTest.fillResumeSections(R_3, 5, 5, 5, 5);
         ResumeDataTest.fillResumeSections(R_4, 6, 6, 6, 6);
-    }
+    */}
 
     protected Storage storage;
 
@@ -51,7 +53,7 @@ public abstract class AbstractStorageTest {
         assertEquals(0, storage.size());
     }
 
-    @Test(expected = ExistStorageException.class)
+    @Test(expected = StorageException.class)
     public void saveExist() {
         storage.save(R_3);
     }
