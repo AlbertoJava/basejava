@@ -53,7 +53,7 @@ public abstract class AbstractStorageTest {
         assertEquals(0, storage.size());
     }
 
-    @Test(expected = StorageException.class)
+    @Test(expected = ExistStorageException.class)
     public void saveExist() {
         storage.save(R_3);
     }
