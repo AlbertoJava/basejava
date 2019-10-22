@@ -30,6 +30,7 @@ public class SqlStorage implements Storage {
             try {
                 ps.execute();
             } catch (SQLException e) {
+                if(e.getSQLState().equals("23505"))
                 throw new ExistStorageException(resume.getUuid());
             }
             return null;
@@ -77,7 +78,7 @@ public class SqlStorage implements Storage {
     public int size() {
         return sqlHelper.transactionExecute(ps -> {
             ResultSet rs = ps.executeQuery();
-            rs.next();
+            if (!rs.next()) {return 0;}
             return rs.getInt(1);
         }, "SELECT count (uuid) FROM RESUME");
     }
