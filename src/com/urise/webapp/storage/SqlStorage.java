@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.model.ContactType;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.sql.SqlHelper;
 
@@ -9,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SqlStorage implements Storage {
     public final SqlHelper sqlHelper;
@@ -31,10 +33,25 @@ public class SqlStorage implements Storage {
                 ps.execute();
             } catch (SQLException e) {
                 if(e.getSQLState().equals("23505"))
-                throw new ExistStorageException(resume.getUuid());
+                    throw new ExistStorageException(resume.getUuid());
             }
             return null;
-        }, "INSERT INTO RESUME (uuid, full_name) values (?,?)");
+        }, "INSERT INTO contact (resume_uuid, type, value) values (?,?,?)");
+        for (Map.Entry<ContactType,String> entry:resume.getContacts().entrySet()) {
+            sqlHelper.transactionExecute(ps -> {
+                ps.setString(1, resume.getUuid());
+                ps.setString(2, entry.getKey().name());
+                ps.setString(3, entry.getValue());
+                try {
+                    ps.execute();
+                } catch (SQLException e) {
+                    if (e.getSQLState().equals("23505"))
+                        throw new ExistStorageException(resume.getUuid());
+                }
+
+                return null;
+            }, "INSERT INTO RESUME (uuid, full_name) values (?,?)");
+        }
     }
 
     @Override
@@ -45,9 +62,17 @@ public class SqlStorage implements Storage {
             if (!rs.next()) {
                 throw new NotExistStorageException(uuid);
             }
-            return new Resume(uuid, rs.getString("full_name"));
-        }, "SELECT * FROM RESUME where uuid=?");
-
+            Resume r = new Resume(uuid, rs.getString("full_name"));
+            do{
+                String value =rs.getString("value");
+                ContactType type = ContactType.valueOf(rs.getString("type"));
+                r.addContact(type,value);
+            }while (rs.next());
+            return r;
+        },
+        "SELECT * FROM RESUME r " +
+                "LEFT JOIN CONTACT c on (r.uuid=c.resume_uuid) " +
+                "WHERE r.uuid=?");
     }
 
     @Override
